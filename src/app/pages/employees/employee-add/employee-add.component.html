@@ -1,0 +1,132 @@
+<button
+  type="button"
+  class="btn btn-info btn-lg"
+  (click)="onAddClicked()"
+  data-toggle="modal"
+  data-target="#myModal"
+>
+  Add Employee
+</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add/Edit Employee</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <div class="form-group">
+            <label for="EmployeeNumber">Employee Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="EmployeeNumber"
+              name="EmployeeNumber"
+              required
+              minlength="6"
+              placeholder="Enter unique employee number"
+              [ngModel]="selectedEmployee.EmployeeNumber"
+            />
+            <span *ngIf="!f.valid && f.touched" class="text-danger valmsg">Please provide a valid employee number</span>
+          </div>
+          <div class="form-group">
+            <label for="UserName">UserName</label>
+            <input
+              type="text"
+              class="form-control"
+              id="txtUserName"
+              name="UserName"
+              required
+              minlength="4"
+              placeholder="Enter unique username"
+              [ngModel]="selectedEmployee.UserName"
+            />
+          </div>
+          <div class="form-group">
+            <label for="FirstName">First Name(s)</label>
+            <input
+              type="text"
+              class="form-control"
+              id="txtFirstName"
+              name="FirstName"
+              required
+              placeholder="Enter first name(s)"
+              [ngModel]="selectedEmployee.FirstName"
+            />
+          </div>
+          <div class="form-group">
+            <label for="LastName">Last Name(s)</label>
+            <input
+              type="text"
+              class="form-control"
+              id="txtLastName"
+              name="LastName"
+              required
+              placeholder="Enter last name(s)"
+              [ngModel]="selectedEmployee.LastName"
+            />
+          </div>
+          <div class="form-group">
+            <label for="Email">Email Address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="emlEmail"
+              name="Email"
+              required
+              email
+              placeholder="Enter valid email address"
+              [ngModel]="selectedEmployee.Email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="AppointmentDate">Appointment Date</label>
+            <input
+                  type="date"
+                  class="form-control"
+                  id="dpAppointmentDate"
+                  [ngModel]="selectedEmployee.AppointmentDate"
+                  name="AppointmentDate"
+                  required
+                />
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <label class="form-check-label" for="IsActive">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="chkIsActive"
+                  name="IsActive"
+                  [ngModel]="selectedEmployee.AppointmentDate"
+                />
+                Active Employee?
+              </label>
+            </div>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" [disabled]="!f.valid" class="btn btn-primary" data-dismiss="modal">
+          Add
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>

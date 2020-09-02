@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="showMenu">
+  <a class="navbar-brand" href="#">Orion Time Management</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        >Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+        routerLink="/employees"
+        routerLinkActive="active"
+        >Employees</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+        routerLink="/roles"
+        routerLinkActive="active"
+        >Roles</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+        routerLink="/tasks"
+        routerLinkActive="active"
+        >Tasks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+        routerLink="/timecapture"
+        routerLinkActive="active"
+        >Time Capture</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="nav-item">
+        <a class="nav-link"
+        routerLink="/profile"
+        routerLinkActive="active">
+        <span class="glyphicon glyphicon-user"></span> {{username}}</a>
+      </li>
+      <li class="nav-item"><div class="nav-link" (click)="onLogoff()" ><span class="glyphicon glyphicon-log-in"></span> Logout</div></li>
+    </ul>
+  </div>
+</nav>

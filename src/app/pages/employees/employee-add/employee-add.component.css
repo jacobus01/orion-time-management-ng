@@ -1,0 +1,7 @@
+imput.ng-invalid {
+  border: 1px solid red;
+}
+
+.valmsg {
+  color: red;
+}

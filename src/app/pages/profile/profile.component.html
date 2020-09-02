@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <h3 class="card-header">
+          Profile
+        </h3>
+        <div class="card-body">
+          <img [src]="getpath()" class="img-fluid" width="200px" height="200px"/>
+          <app-upload-image></app-upload-image>
+          <div>
+            <div class="form-group">
+              <label for="UserName">UserName</label>
+              <input
+                type="text"
+                class="form-control"
+                id="txtUserName"
+                name="UserName"
+                required
+                minlength="4"
+                placeholder="Enter unique username"
+              />
+            <div class="form-group">
+              <label for="EmployeeNumber">Employee Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="EmployeeNumber"
+                name="EmployeeNumber"
+                required
+                minlength="6"
+                placeholder="Enter unique employee number"
+
+              />
+            </div>
+            </div>
+            <div class="form-group">
+              <label for="FirstName">First Name(s)</label>
+              <input
+                type="text"
+                class="form-control"
+                id="txtFirstName"
+                name="FirstName"
+                required
+                placeholder="Enter first name(s)"
+              />
+            </div>
+            <div class="form-group">
+              <label for="LastName">Last Name(s)</label>
+              <input
+                type="text"
+                class="form-control"
+                id="txtLastName"
+                name="LastName"
+                required
+                placeholder="Enter last name(s)"
+              />
+            </div>
+            <div class="form-group">
+              <label for="Email">Email Address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="emlEmail"
+                name="Email"
+                required
+                email
+                placeholder="Enter valid email address"
+              />
+            </div>
+            <div class="form-group">
+              <label for="AppointmentDate">Appointment Date</label>
+              <input
+                    type="date"
+                    class="form-control"
+                    id="dpAppointmentDate"
+                    name="AppointmentDate"
+                    required
+                  />
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <label class="form-check-label" for="IsActive">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="chkIsActive"
+                    name="IsActive"
+                  />
+                  Active Employee?
+                </label>
+              </div>
+            </div>
+
+        </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
