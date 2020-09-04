@@ -32,7 +32,7 @@ export class EmployeeTableComponent implements OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false
+      delete: true
     },
     attr:
     {
@@ -42,6 +42,10 @@ export class EmployeeTableComponent implements OnInit {
     {
       display: true,
       perPage: 10
+    },
+    delete:
+    {
+      deleteButtonContent: "<span class='btn btn-primary'>Delete</span>"
     }
   };
 
@@ -89,6 +93,11 @@ export class EmployeeTableComponent implements OnInit {
     this.authService.employeeShowModalEmitter.next(true);
     this.authService.selectedEmployeeEmitter.next({...event.data});
     this.logging.logDebug('ListUsers RowSelect', event);
+  }
+
+  onDeleteEmployee($event)
+  {
+
   }
 
 }

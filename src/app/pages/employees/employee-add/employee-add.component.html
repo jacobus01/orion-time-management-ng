@@ -188,20 +188,24 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="RoleId">Access Group</label>
-                  <select class="custom-select">
-                    <option selected>Select...</option>
-                    <option value="2">Casual Employee</option>
-                    <option value="1">Management</option>
-                  </select>
+                  <label for="AccessGroupId">Access Group</label>
+                  <ngx-select-dropdown name="AccessGroupId"
+                  id="AccessGroupId"
+                  (change)="accessGroupSelectionChanged($event)"
+                   [multiple]="false"
+                   [(ngModel)]="selectedAccessGroup"
+                  [config]="configAccessGroupDropdown"
+                  [options]="accessGroups"></ngx-select-dropdown>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="RoleId">Employee Role</label>
-                  <ngx-select-dropdown (change)="roleSelectionChanged($event)"
-                   [multiple]="false" [(ngModel)]="selectedEmployee.RoleId"
-                  [config]="config"
+                  <ngx-select-dropdown
+                  id="RoleId"
+                  name="RoleId"  (change)="roleSelectionChanged($event)"
+                   [multiple]="false" [(ngModel)]="selectedRole"
+                  [config]="configRoleDropdown"
                   [options]="roles"></ngx-select-dropdown>
                 </div>
               </div>

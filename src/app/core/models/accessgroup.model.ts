@@ -1,14 +1,12 @@
-export class RoleModel {
-  public Id: number;
-  public RoleName: string;
-  public Rate: number;
+export class AccessGroupModel {
+  public id: number;
+  public accessGroupName: string;
 
   constructor(Id: number,
-              RoleName: string,
+    AccessGroupName: string,
               Rate: number
       ) {
-    this.Id = Id;
-    this.RoleName = RoleName;
-    this.Rate = Rate;
+    this.id = Id;
+    this.accessGroupName = AccessGroupName;
   }
 }
