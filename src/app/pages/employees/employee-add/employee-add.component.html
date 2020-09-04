@@ -10,123 +10,255 @@
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add/Edit Employee</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-white bg-dark">
+          <h1 class="modal-title" id="exampleModalLabel">{{formHeading}}</h1>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true" class="btn btn-danger ">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <!-- row1 -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="EmployeeNumber">Employee Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="EmployeeNumber"
+                    name="EmployeeNumber"
+                    required
+                    minlength="6"
+                    #EmployeeNumber="ngModel"
+                    placeholder="Enter unique employee number"
+                    [ngModel]="selectedEmployee.EmployeeNumber"
+                  />
+                  <span *ngIf="!EmployeeNumber.valid && EmployeeNumber.touched" class="text-danger"
+                    >Please provide a valid employee number</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="UserName">UserName</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="UserName"
+                    name="UserName"
+                    required
+                    minlength="4"
+                    #UserName="ngModel"
+                    placeholder="Enter unique username"
+                    [ngModel]="selectedEmployee.UserName"
+                  />
+                  <span *ngIf="!UserName.valid && UserName.touched" class="text-danger"
+                    >Please provide a valid user name</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- row1 -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Password</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="Password"
+                    name="Password"
+                    required
+                    minlength="6"
+                    [disabled]="!changeAddPassword"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="form-check">
+                    <label class="form-check-label" for="IsActive">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="ChangePasswordOnNextLogin"
+                        name="ChangePasswordOnNextLogin"
+                        [ngModel]="selectedEmployee.ChangePasswordOnNextLogin"
+                      />
+                      Change Password On Login?
+                    </label>
+                  </div>
+                  <button
+                    type="button"
+                    class="form-control btn btn-primary mt-2"
+                  >
+                    Reset Password
+                  </button>
+                </div>
+              </div>
+            </div>
 
-          <div class="form-group">
-            <label for="EmployeeNumber">Employee Number</label>
-            <input
-              type="text"
-              class="form-control"
-              id="EmployeeNumber"
-              name="EmployeeNumber"
-              required
-              minlength="6"
-              placeholder="Enter unique employee number"
-              [ngModel]="selectedEmployee.EmployeeNumber"
-            />
-            <span *ngIf="!f.valid && f.touched" class="text-danger valmsg">Please provide a valid employee number</span>
-          </div>
-          <div class="form-group">
-            <label for="UserName">UserName</label>
-            <input
-              type="text"
-              class="form-control"
-              id="txtUserName"
-              name="UserName"
-              required
-              minlength="4"
-              placeholder="Enter unique username"
-              [ngModel]="selectedEmployee.UserName"
-            />
-          </div>
-          <div class="form-group">
-            <label for="FirstName">First Name(s)</label>
-            <input
-              type="text"
-              class="form-control"
-              id="txtFirstName"
-              name="FirstName"
-              required
-              placeholder="Enter first name(s)"
-              [ngModel]="selectedEmployee.FirstName"
-            />
-          </div>
-          <div class="form-group">
-            <label for="LastName">Last Name(s)</label>
-            <input
-              type="text"
-              class="form-control"
-              id="txtLastName"
-              name="LastName"
-              required
-              placeholder="Enter last name(s)"
-              [ngModel]="selectedEmployee.LastName"
-            />
-          </div>
-          <div class="form-group">
-            <label for="Email">Email Address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="emlEmail"
-              name="Email"
-              required
-              email
-              placeholder="Enter valid email address"
-              [ngModel]="selectedEmployee.Email"
-            />
-          </div>
-          <div class="form-group">
-            <label for="AppointmentDate">Appointment Date</label>
-            <input
-                  type="date"
-                  class="form-control"
-                  id="dpAppointmentDate"
-                  [ngModel]="selectedEmployee.AppointmentDate"
-                  name="AppointmentDate"
-                  required
-                />
-          </div>
-          <div class="form-group">
-            <div class="form-check">
-              <label class="form-check-label" for="IsActive">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="chkIsActive"
-                  name="IsActive"
-                  [ngModel]="selectedEmployee.AppointmentDate"
-                />
-                Active Employee?
-              </label>
+            <!-- row 2 -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="FirstName">First Name(s)</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="FirstName"
+                    name="FirstName"
+                    required
+                    placeholder="Enter first name(s)"
+                    #FirstName="ngModel"
+                    [ngModel]="selectedEmployee.FirstName"
+                  />
+                  <span *ngIf="!FirstName.valid && FirstName.touched" class="text-danger"
+                    >Please provide a valid first name</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="LastName">Last Name(s)</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="LastName"
+                    name="LastName"
+                    required
+                    placeholder="Enter last name(s)"
+                    #LastName="ngModel"
+                    [ngModel]="selectedEmployee.LastName"
+                  />
+                  <span *ngIf="!LastName.valid && LastName.touched" class="text-danger"
+                    >Please provide a valid last name</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="Email">Email Address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="Email"
+                    name="Email"
+                    required
+                    email
+                    placeholder="Enter valid email address"
+                    #Email="ngModel"
+                    [ngModel]="selectedEmployee.Email"
+                  />
+                  <span *ngIf="!Email.valid && Email.touched" class="text-danger"
+                    >Please provide a valid email address</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="AppointmentDate">Appointment Date</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="dpAppointmentDate"
+                    [ngModel]="
+                      selectedEmployee.AppointmentDate | date: 'yyyy-MM-dd'
+                    "
+                    (ngModelChange)="selectedEmployee.AppointmentDate = $event"
+                    name="AppointmentDate"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="RoleId">Access Group</label>
+                  <select class="custom-select">
+                    <option selected>Select...</option>
+                    <option value="2">Casual Employee</option>
+                    <option value="1">Management</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="RoleId">Employee Role</label>
+                  <ngx-select-dropdown (change)="roleSelectionChanged($event)"
+                   [multiple]="false" [(ngModel)]="selectedEmployee.RoleId"
+                  [config]="config"
+                  [options]="roles"></ngx-select-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="form-check">
+                    <label class="form-check-label" for="IsActive">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="chkIsActive"
+                        name="IsActive"
+                        [ngModel]="selectedEmployee.IsActive"
+                      />
+                      Active Employee?
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="form-check">
+                    <label class="form-check-label" for="IsActive">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="chkIsActive"
+                        name="IsActive"
+                        [ngModel]="selectedEmployee.IsActive"
+                      />
+                      Lock Employee Access?
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6"></div>
+              <div class="col-md-6"></div>
             </div>
           </div>
-
+        </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            [disabled]="!f.valid"
+            class="btn btn-primary"
+          >
+           {{submitButtonText}}
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Close
+          </button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" [disabled]="!f.valid" class="btn btn-primary" data-dismiss="modal">
-          Add
-        </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
-          Close
-        </button>
-      </div>
-    </div>
-  </form>
+    </form>
   </div>
 </div>

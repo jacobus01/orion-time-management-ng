@@ -1,0 +1,3 @@
+<select [(ngModel)]="selectedId" class="custom-select">
+  <option  *ngFor="let r of roles" [ngValue]="selectedId">{{ r.roleName }}</option>
+</select>

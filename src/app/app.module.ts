@@ -10,6 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -29,6 +30,7 @@ import { TimecaptureAddComponent } from './pages/timecapture/timecapture-add/tim
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { UploadImageComponent } from './pages/profile/upload-image/upload-image.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { RoleDropdownComponent } from './shared/role-dropdown/role-dropdown.component';
 
 
 
@@ -51,7 +53,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     TimecaptureCalendarComponent,
     UploadImageComponent,
     ProfileComponent,
-    TimecaptureAddComponent
+    TimecaptureAddComponent,
+    RoleDropdownComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     ToastrModule.forRoot({
       timeOut: 10000,
       preventDuplicates: true,
-    })
+    }),
+    SelectDropDownModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{

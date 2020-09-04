@@ -2,6 +2,7 @@ export class EmployeeModel {
   public Id: number;
   public UserName: string;
   public Password: string;
+  public ChangePasswordOnNextLogin: boolean;
   public Email: string;
   public EmployeeNumber: string;
   public FirstName: string;
@@ -14,21 +15,23 @@ export class EmployeeModel {
 
 
   constructor(Id: number,
-    UserName: string,
-    Password: string ,
-    Email: string,
-    EmployeeNumber: string,
-    FirstName: string,
-    LastName: string,
-    AppointmentDate: string,
-    IsActive: boolean,
-    RoleId: number,
-    AccessGroupId: number,
-    LockoutEnabled: boolean
+              UserName: string,
+              Password: string ,
+              ChangePasswordOnNextLogin: boolean,
+              Email: string,
+              EmployeeNumber: string,
+              FirstName: string,
+              LastName: string,
+              AppointmentDate: string,
+              IsActive: boolean,
+              RoleId: number,
+              AccessGroupId: number,
+              LockoutEnabled: boolean
       ) {
     this.Id = Id;
     this.UserName = UserName;
     this.Password = Password;
+    this.ChangePasswordOnNextLogin = ChangePasswordOnNextLogin;
     this.Email = Email;
     this.EmployeeNumber = EmployeeNumber;
     this.FirstName = FirstName;

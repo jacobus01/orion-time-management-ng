@@ -24,6 +24,11 @@ constructor(private http: HttpService) {
    return this.http.get('applicationuser/users');
  }
 
+ CreateUpdateUser(user): Observable<any>
+ {
+   return this.http.post('applicationuser/createuser', user);
+ }
+
  getProfilePic(): Observable<any>
  {
    return this.http.get('applicationuser/profilepic');

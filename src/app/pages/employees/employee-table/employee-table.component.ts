@@ -33,6 +33,15 @@ export class EmployeeTableComponent implements OnInit {
       add: false,
       edit: false,
       delete: false
+    },
+    attr:
+    {
+      class : 'table table-bordered table-hover'
+    },
+    pager:
+    {
+      display: true,
+      perPage: 10
     }
   };
 
