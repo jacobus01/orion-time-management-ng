@@ -1,26 +1,23 @@
 <button
   type="button"
   class="btn btn-info btn-lg"
-  (click)="onAddClicked()"
-  data-toggle="modal"
-  data-target="#myModal"
+  (click)="open(mymodal)"
 >
   Add Employee
 </button>
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<ng-template #mymodal let-modal class="modal fade">
   <div class="modal-dialog modal-lg">
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header text-white bg-dark">
           <h1 class="modal-title" id="exampleModalLabel">{{formHeading}}</h1>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
+          <button type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
           >
             <span aria-hidden="true" class="btn btn-danger ">&times;</span>
           </button>
@@ -258,11 +255,11 @@
           >
            {{submitButtonText}}
           </button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">
+          <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
             Close
           </button>
         </div>
       </div>
     </form>
   </div>
-</div>
+</ng-template>

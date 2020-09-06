@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule , CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { DpDatePickerModule} from 'ng2-date-picker';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -60,6 +61,7 @@ import { RoleDropdownComponent } from './shared/role-dropdown/role-dropdown.comp
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgbModule,
     FormsModule,
     Ng2SmartTableModule,
     DpDatePickerModule,
