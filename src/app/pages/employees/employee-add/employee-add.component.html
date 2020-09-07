@@ -8,7 +8,6 @@
 
 <!-- Modal -->
 <ng-template #mymodal let-modal class="modal fade">
-  <div class="modal-dialog modal-lg">
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <!-- Modal content-->
       <div class="modal-content">
@@ -255,11 +254,10 @@
           >
            {{submitButtonText}}
           </button>
-          <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">
+          <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">
             Close
           </button>
         </div>
       </div>
     </form>
-  </div>
 </ng-template>

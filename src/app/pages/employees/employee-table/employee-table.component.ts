@@ -13,19 +13,19 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class EmployeeTableComponent implements OnInit {
   public settings = {
     columns: {
-      id: {
+      Id: {
         title: 'ID'
       },
-      firstName: {
+      FirstName: {
         title: 'First Name'
       },
-      lastName: {
+      LastName: {
         title: 'Last Name'
       },
-      userName: {
+      UserName: {
         title: 'User Name'
       },
-      email: {
+      Email: {
         title: 'Email'
       }
     },

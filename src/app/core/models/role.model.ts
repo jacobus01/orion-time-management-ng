@@ -1,14 +1,14 @@
 export class RoleModel {
-  public id: number;
-  public roleName: string;
-  public rate: number;
+  public Id: number;
+  public RoleName: string;
+  public Rate: number;
 
   constructor(Id: number,
               RoleName: string,
               Rate: number
       ) {
-    this.id = Id;
-    this.roleName = RoleName;
-    this.rate = Rate;
+    this.Id = Id;
+    this.RoleName = RoleName;
+    this.Rate = Rate;
   }
 }

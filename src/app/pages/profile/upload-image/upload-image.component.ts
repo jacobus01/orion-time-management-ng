@@ -1,6 +1,8 @@
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpEventType, HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-upload-image',
@@ -13,24 +15,26 @@ export class UploadImageComponent implements OnInit {
   public message: string;
   // tslint:disable-next-line: no-output-on-prefix
   @Output() public onUploadFinished = new EventEmitter();
-  constructor(private http: HttpClient, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private toastr: ToastrService, private auth: AuthService) { }
   ngOnInit() {
   }
   public uploadFile = (files) => {
     if (files.length === 0) {
       return;
     }
-    let fileToUpload = <File> files[0];
+    const fileToUpload = files[0] as File;
     const formData = new FormData();
     formData.append('file', fileToUpload, localStorage.getItem('userId'));
-    this.http.post('http://localhost:52368/ApplicationUser/UploadImage', formData, { reportProgress: true, observe: 'events'})
+    this.http.post(environment.baseURL + '/ApplicationUser/UploadImage', formData, { reportProgress: true, observe: 'events' })
       .subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress)
+        if (event.type === HttpEventType.UploadProgress) {
           this.progress = Math.round(100 * event.loaded / event.total);
+        }
         else if (event.type === HttpEventType.Response) {
           this.message = 'Upload success.';
           this.onUploadFinished.emit(event.body);
           this.toastr.success('Profile Picture Uploaded', 'Uploaded Successful');
+          this.auth.profileImageUploadedEmitter.next(true);
         }
       });
   }

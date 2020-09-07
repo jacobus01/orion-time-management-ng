@@ -1,6 +1,7 @@
 import { Observable, observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ menuVisibleEmitter = new Subject<boolean>();
 menuUsernameEmitter = new Subject<string>();
 employeeShowModalEmitter = new Subject<boolean>();
 selectedEmployeeEmitter = new Subject<any>();
+profileImageUploadedEmitter = new Subject<boolean>();
 
 constructor(private http: HttpService) {
  }
@@ -23,15 +25,19 @@ constructor(private http: HttpService) {
  {
    return this.http.get('applicationuser/users');
  }
+ getUserById(userId): Observable<any>
+ {
+   return this.http.post('applicationuser/user', userId);
+ }
 
  CreateUpdateUser(user): Observable<any>
  {
    return this.http.post('applicationuser/createupdateuser', user);
  }
 
- getProfilePic(): Observable<any>
+ getProfilePic(userId)
  {
-   return this.http.get('applicationuser/profilepic');
+   return `${environment.baseURL}/applicationuser/profilepic?id=${userId}`;
  }
 
  DeleteUser(user): Observable<any>

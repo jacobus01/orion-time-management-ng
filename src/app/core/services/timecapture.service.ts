@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TimecaptureService {
   timecaptureShowModalEmitter = new Subject<any>();
-constructor() { }
+constructor(private http: HttpService) { }
+
+CreateUpdateCapturedTime(capturedTime): Observable<any>
+ {
+   return this.http.post('capturedtime/createupdatecapturedtime', capturedTime);
+ }
+
+ listCapturedTimesPerUser(params): Observable<any>
+ {
+   return this.http.post('capturedtime/CapturedTimesPerUser', params);
+ }
 
 }

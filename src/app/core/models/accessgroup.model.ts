@@ -1,12 +1,12 @@
 export class AccessGroupModel {
-  public id: number;
-  public accessGroupName: string;
+  public Id: number;
+  public AccessGroupName: string;
 
   constructor(Id: number,
-    AccessGroupName: string,
-              Rate: number
+    AccessGroupName: string
+
       ) {
-    this.id = Id;
-    this.accessGroupName = AccessGroupName;
+    this.Id = Id;
+    this.AccessGroupName = AccessGroupName;
   }
 }

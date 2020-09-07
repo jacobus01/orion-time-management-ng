@@ -2,84 +2,97 @@
   type="button"
   class="btn btn-info btn-lg"
   style="display: none"
-  data-toggle="modal"
-  data-target="#timeModal"
->
-</button>
+  (click)="open(timeModal)"
+></button>
 
 <!-- Modal -->
-<div id="timeModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <form #f>
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            Add/Edit Time Worked
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+<ng-template #timeModal let-modal class="modal fade">
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header text-white bg-dark">
+        <h1 class="modal-title" id="exampleModalLabel">Add/Edit Time Worked</h1>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true" class="btn btn-danger">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="TaskId">Task</label>
+          <ngx-select-dropdown
+            id="TaskId"
+            name="TaskId"
+            (change)="onTaskSelectionChanged($event)"
+            [multiple]="false"
+            [(ngModel)]="selectedTask"
+            [config]="configTaskDropdown"
+            [options]="tasks"
+          ></ngx-select-dropdown>
         </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="Task">Task</label>
-            <select class="custom-select">
-              <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="Duration">Duration</label>
-            <input
-              type="number"
-              class="form-control"
-              id="Duration"
-              name="Duration"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="StartTime">Start Time</label>
-            <input
-              type="datetime"
-              class="form-control"
-              id="StartTime"
-              name="StartTime"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="EndTime">End Time</label>
-            <input
-              type="datetime"
-              class="form-control"
-              id="EndTime"
-              name="EndTime"
-              required
-            />
-          </div>
+        <div class="form-group">
+          <label for="Rate">Rate</label>
+          <input
+            type="number"
+            class="form-control"
+            id="Rate"
+            name="Rate"
+            [(ngModel)]="selectedCapturedTime.Rate"
+            required
+          />
         </div>
-        <div class="modal-footer">
-          <button
-            type="submit"
-            class="btn btn-primary"
-            data-dismiss="modal"
+        <div class="form-group">
+          <label for="Duration">Duration</label>
+          <input
+            type="number"
+            class="form-control"
+            id="Duration"
+            name="Duration"
+            [(ngModel)]="selectedCapturedTime.Duration"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="startTime">Start Time</label>
+          <dl-date-time-picker
+          (change)="OnStartTimeChange($event)"
+            name="startTime"
+            maxView="minute"
+            minView="minute"
+            startView="minute"
+            minuteStep="30"
+            [(ngModel)]="startTime"
           >
-            Add
-          </button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">
-            Close
-          </button>
+          </dl-date-time-picker>
+        </div>
+        <div class="form-group">
+          <label for="endTime">End Time</label>
+          <dl-date-time-picker
+          (change)="OnEndTimeChange($event)"
+          name="endTime"
+            maxView="minute"
+            minView="minute"
+            startView="minute"
+            minuteStep="30"
+            [(ngModel)]="endTime"
+          >
+          </dl-date-time-picker>
         </div>
       </div>
-    </form>
-  </div>
-</div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Add</button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="modal.close('close click')"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </form>
+</ng-template>

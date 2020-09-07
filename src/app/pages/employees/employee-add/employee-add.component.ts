@@ -36,7 +36,7 @@ export class EmployeeAddComponent implements OnInit {
   closeResult: string;
   modalOptions: NgbModalOptions;
   configRoleDropdown ={
-    displayKey:"roleName", //if objects array passed which key to be displayed defaults to description
+    displayKey:"RoleName", //if objects array passed which key to be displayed defaults to description
     search:true,  //true/false for the search functionlity defaults to false,
     height: 'auto', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
     placeholder:'Select', // text to be displayed when no item is selected defaults to Select,
@@ -44,10 +44,10 @@ export class EmployeeAddComponent implements OnInit {
     limitTo: 7, // number thats limits the no of options displayed in the UI (if zero, options will not be limited
     noResultsFound: 'No results found!', // text to be displayed when no items are found while searching
     searchPlaceholder:'Search', // label thats displayed in search input,
-    searchOnKey: 'roleName' // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+    searchOnKey: 'RoleName' // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
     }
     configAccessGroupDropdown ={
-      displayKey:"accessGroupName", //if objects array passed which key to be displayed defaults to description
+      displayKey:"AccessGroupName", //if objects array passed which key to be displayed defaults to description
       search:true,  //true/false for the search functionlity defaults to false,
       height: 'auto', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
       placeholder:'Select', // text to be displayed when no item is selected defaults to Select,
@@ -55,7 +55,7 @@ export class EmployeeAddComponent implements OnInit {
       limitTo: 7, // number thats limits the no of options displayed in the UI (if zero, options will not be limited
       noResultsFound: 'No results found!', // text to be displayed when no items are found while searching
       searchPlaceholder:'Search', // label thats displayed in search input,
-      searchOnKey: 'accessGroupName' // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+      searchOnKey: 'AccessGroupName' // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
       }
   @ViewChild('f') employeeForm: NgForm;
   constructor(private authService: AuthService,
@@ -67,7 +67,8 @@ export class EmployeeAddComponent implements OnInit {
               private modalService: NgbModal) {
                 this.modalOptions = {
                   backdrop: 'static',
-                  backdropClass: 'customBackdrop'
+                  backdropClass: 'customBackdrop',
+                  size: 'lg'
                 };
    }
 
@@ -153,23 +154,23 @@ export class EmployeeAddComponent implements OnInit {
       });
     this.authService.selectedEmployeeEmitter.subscribe(result =>
         {
-          this.selectedAccessGroup = this.accessGroups.find(e => e.id === result.accessGroupId);
-          this.selectedRole = this.roles.find(e => e.id === result.roleId);
+          this.selectedAccessGroup = this.accessGroups.find(e => e.Id === result.accessGroupId);
+          this.selectedRole = this.roles.find(e => e.Id === result.RoleId);
           this.logging.logDebug('loading employee model on add edit form', result);
           this.selectedEmployee = new EmployeeModel(
-            result.id,
-            result.userName,
-            result.password,
-            result.changePasswordOnNextLogin,
-            result.email,
-            result.employeeNumber,
-            result.firstName,
-            result.lastName,
-            result.appointmentDate,
-            result.isActive,
-            result.roleId,
-            result.accessGroupId,
-            result.lockoutEnabled);
+            result.Id,
+            result.UserName,
+            result.Password,
+            result.ChangePasswordOnNextLogin,
+            result.Email,
+            result.EmployeeNumber,
+            result.FirstName,
+            result.LastName,
+            result.AppointmentDate,
+            result.IsActive,
+            result.RoleId,
+            result.AccessGroupId,
+            result.LockoutEnabled);
         }, err => {
           this.logging.logError('Error loading employee model on modal', err);
         });
@@ -224,8 +225,8 @@ export class EmployeeAddComponent implements OnInit {
     this.selectedEmployee.LastName = form.value.LastName;
     this.selectedEmployee.AppointmentDate = form.value.AppointmentDate;
     this.selectedEmployee.IsActive = form.value.IsActive;
-    this.selectedEmployee.RoleId = form.value.RoleId.id;
-    this.selectedEmployee.AccessGroupId = form.value.AccessGroupId.id;
+    this.selectedEmployee.RoleId = form.value.RoleId.Id;
+    this.selectedEmployee.AccessGroupId = form.value.AccessGroupId.Id;
     this.selectedEmployee.LockoutEnabled = form.value.LockoutEnabled;
 
 

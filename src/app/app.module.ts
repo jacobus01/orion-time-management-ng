@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { DpDatePickerModule} from 'ng2-date-picker';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -12,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -63,8 +64,10 @@ import { RoleDropdownComponent } from './shared/role-dropdown/role-dropdown.comp
     HttpClientModule,
     NgbModule,
     FormsModule,
+    DlDateTimeDateModule,
+    DlDateTimePickerModule,
+    FlatpickrModule.forRoot(),
     Ng2SmartTableModule,
-    DpDatePickerModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     BrowserAnimationsModule,
     NgxSpinnerModule,

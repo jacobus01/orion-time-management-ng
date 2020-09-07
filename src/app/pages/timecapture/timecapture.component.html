@@ -1,6 +1,18 @@
+<div class="card">
+  <h3 class="card-header">
+    Time capture for employee
+  </h3>
+</div>
 <div>
-  <app-timecapture-add></app-timecapture-add>
-  <app-timecapture-calendar></app-timecapture-calendar>
+                  <ngx-select-dropdown
+                  id="selectedEmployeeId"
+                  name="selectedEmployeeId"  (change)="employeeSelectionChanged($event)"
+                   [multiple]="false" [(ngModel)]="selectedEmployee"
+                  [config]="configEmployeeDropdown"
+                  [options]="employees"></ngx-select-dropdown>
+                  <br/>
+  <app-timecapture-add [selectedEmployee]="selectedEmployee" [selectedEmployeeRole]="selectedEmployeeRole" *ngIf="loadCalendar"></app-timecapture-add>
+  <app-timecapture-calendar [selectedEmployee]="selectedEmployee" *ngIf="loadCalendar"></app-timecapture-calendar>
 </div>
 
 

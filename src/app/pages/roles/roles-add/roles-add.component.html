@@ -1,10 +1,81 @@
-<form>
-  <div class="form-group">
-    <label for="RoleName">Role Name</label>
-    <input type="text" class="form-control" id="txtRoleName" placeholder="Enter unique role name">
-  </div>
-  <div class="form-group">
-    <label for="Rate">Rate</label>
-    <input type="number" class="form-control" id="numRate" placeholder="Enter rate">
-  </div>
-</form>
+<button
+  type="button"
+  class="btn btn-info btn-lg"
+  (click)="open(roleModal)"
+>
+  Add Role
+</button>
+
+<!-- Modal -->
+<ng-template #roleModal let-modal class="modal fade">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-white bg-dark">
+          <h1 class="modal-title" id="exampleModalLabel">{{formHeading}}</h1>
+          <button type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+          >
+            <span aria-hidden="true" class="btn btn-danger ">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <!-- row1 -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="RoleName">RoleName</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="RoleName"
+                    name="RoleName"
+                    required
+                    #RoleName="ngModel"
+                    placeholder="Enter unique role name"
+                    [ngModel]="selectedRole.RoleName"
+                  />
+                  <span *ngIf="!RoleName.valid && RoleName.touched" class="text-danger"
+                    >Please provide a valid role name</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="Rate">Rate</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="Rate"
+                    name="Rate"
+                    required
+                    #Rate="ngModel"
+                    placeholder="Enter unique username"
+                    [ngModel]="selectedRole.Rate"
+                  />
+                  <span *ngIf="!Rate.valid && Rate.touched" class="text-danger"
+                    >Please provide a valid rate</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            [disabled]="!f.valid"
+            class="btn btn-primary"
+          >
+           {{submitButtonText}}
+          </button>
+          <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">
+            Close
+          </button>
+        </div>
+      </div>
+    </form>
+</ng-template>

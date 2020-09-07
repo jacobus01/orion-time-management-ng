@@ -1,1 +1,1 @@
-<ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+<ng2-smart-table [settings]="settings" [source]="data" (userRowSelect)="onTaskRowSelect($event)" (delete)="onDeleteTask($event)"></ng2-smart-table>

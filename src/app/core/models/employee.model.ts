@@ -7,6 +7,7 @@ export class EmployeeModel {
   public EmployeeNumber: string;
   public FirstName: string;
   public LastName: string;
+  public FullName: string;
   public AppointmentDate: string;
   public IsActive: boolean;
   public RoleId: number;
@@ -36,6 +37,7 @@ export class EmployeeModel {
     this.EmployeeNumber = EmployeeNumber;
     this.FirstName = FirstName;
     this.LastName = LastName;
+    this.FullName = FirstName + ' ' + LastName;
     this.AppointmentDate = AppointmentDate;
     this.IsActive = IsActive;
     this.RoleId = RoleId;
