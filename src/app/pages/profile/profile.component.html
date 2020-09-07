@@ -4,14 +4,23 @@
       <div class="card">
         <h3 class="card-header">Profile</h3>
         <div class="card-body">
-          <div class="card" style="width: 200px;">
-            <div class="card-header">
-              Profile Picture
-            </div>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card" style="width: 200px;">
+                  <div class="card-header">
+                    Profile Picture
+                  </div>
 
-            <img [src]="path" class="img-fluid" width="200px" height="200px" />
-            <div class="card-footer">
-              <app-upload-image></app-upload-image>
+                  <img [src]="path" class="img-fluid" width="200px" height="200px" />
+                  <div class="card-footer">
+                    <app-upload-image></app-upload-image>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <app-time-report></app-time-report>
+              </div>
             </div>
           </div>
           <br/>

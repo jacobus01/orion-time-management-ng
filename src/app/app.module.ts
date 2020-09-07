@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
+import { TimeReportComponent } from './pages/profile/time-report/time-report.component';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -56,7 +57,8 @@ import { RoleDropdownComponent } from './shared/role-dropdown/role-dropdown.comp
     UploadImageComponent,
     ProfileComponent,
     TimecaptureAddComponent,
-    RoleDropdownComponent
+    RoleDropdownComponent,
+    TimeReportComponent
   ],
   imports: [
     BrowserModule,

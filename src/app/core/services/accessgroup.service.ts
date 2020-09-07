@@ -14,4 +14,8 @@ listAccessGroups(): Observable<any>
   return this.http.get('accessgroup/accessgroups');
 }
 
+getAccessgroupByUserId(userId: number): Observable<any> {
+  return this.http.post('accessgroup/accessgroupbyuser', userId);
+}
+
 }

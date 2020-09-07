@@ -15,18 +15,21 @@
       </li>
       <li class="nav-item">
         <a class="nav-link"
+        *ngIf="showEmployee"
         routerLink="/employees"
         routerLinkActive="active"
         >Employees</a>
       </li>
       <li class="nav-item">
         <a class="nav-link"
+        *ngIf="showRoles"
         routerLink="/roles"
         routerLinkActive="active"
         >Roles</a>
       </li>
       <li class="nav-item">
         <a class="nav-link"
+        *ngIf="showTasks"
         routerLink="/tasks"
         routerLinkActive="active"
         >Tasks</a>

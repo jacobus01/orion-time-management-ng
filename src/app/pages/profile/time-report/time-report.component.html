@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <label for="ReportPeriod">Report for month:</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="ReportPeriod"
+                    [ngModel]="
+                    ReportPeriod | date: 'yyyy-mm-dd'
+                    "
+                    (ngModelChange)="ReportPeriod = $event"
+                    name="ReportPeriod"
+                    required
+                  />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label>Hours Worked:</label>
+      <label class="form-control">12</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label>Employment Role:</label>
+      <label class="form-control">Casual Employee Level 1</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label>Remunaration:</label>
+      <label class="form-control">R 600.00</label>
+    </div>
+  </div>
+</div>
