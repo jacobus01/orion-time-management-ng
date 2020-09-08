@@ -72,6 +72,7 @@ export class TimecaptureComponent implements OnInit {
 
   employeeSelectionChanged($event)
   {
+    this.spinner.show();
     this.selectedEmployee = $event.value;
     this.logging.logDebug("ontheemployeeselectchange=> ",$event);
     this.loadCalendar = true;

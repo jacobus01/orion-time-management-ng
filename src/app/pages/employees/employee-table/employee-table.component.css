@@ -1,31 +1,74 @@
-:host /deep/ ng2-smart-table table{
-  border-width: 2px;
-  border-collapse:separate;
-  border:solid grey 2px;
-  border-radius:6px;
-  -moz-border-radius:6px;
-  display: table;
+
+
+:host /deep/ ng2-smart-table table.blueTable {
+  border: 1px solid #1C6EA4;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+:host /deep/ ng2-smart-table table.blueTable td, table.blueTable th {
+  border: 3px solid #AAAAAA;
+  padding: 3px 2px;
+}
+:host /deep/ ng2-smart-table table.blueTable tbody td {
+  font-size: 13px;
+
 }
 
-
-
-/* grid lines */
-:host /deep/ ng2-smart-table table > tbody > tr > td {
-  /* box-sizing: border-box; */
-  border: 2px solid grey;
-  border-top: none;
+:host /deep/ ng2-smart-table table.blueTable tr:nth-child(even) {
+  background: #D0E4F5;
+  transition: 0.1s;
+}
+:host /deep/ ng2-smart-table table.blueTable tr:nth-child(odd) {
+  background: #66b5e9;
+  transition: 0.1s;
+}
+:host /deep/ ng2-smart-table table.blueTable tr:hover {
+  background: #008cff;
 }
 
-/* headers grid color*/
-:host /deep/ ng2-smart-table thead > tr > th  {
-  border: 2px solid grey;
-  background-color:aqua;
+:host /deep/ ng2-smart-table table.blueTable thead {
+  background: #1C6EA4;
+  color: #FFFFFF;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
 }
-
-:host /deep/ ng2-smart-table td:first-child, th:first-child {
+:host /deep/ ng2-smart-table table.blueTable thead a{
+  color: #FFFFFF;
+}
+:host /deep/ ng2-smart-table table.blueTable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 2px solid #D0E4F5;
+}
+:host /deep/ ng2-smart-table table.blueTable thead th:first-child {
   border-left: none;
 }
-/*font size*/
-:host /deep/ ng2-smart-table {
-  font-size:16px;
+
+:host /deep/ ng2-smart-table table.blueTable tfoot {
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #D0E4F5;
+  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  border-top: 2px solid #444444;
+}
+:host /deep/ ng2-smart-table table.blueTable tfoot td {
+  font-size: 14px;
+}
+:host /deep/ ng2-smart-table  table.blueTable tfoot .links {
+  text-align: right;
+}
+:host /deep/ ng2-smart-table table.blueTable tfoot .links a{
+  display: inline-block;
+  background: #1C6EA4;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 5px;
 }

@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { userInfo } from 'os';
 import { EmployeeModel } from 'src/app/core/models/employee.model';
+import { is } from 'date-fns/locale';
 declare var $: any;
 
 @Component({
@@ -25,6 +26,7 @@ export class TimecaptureAddComponent implements OnInit {
   @ViewChild('timeModal')
   private modalRef: TemplateRef<any>;
   @ViewChild('f') timeCaptureForm: NgForm;
+  isDelete = false;
   closeResult: string;
   modalOptions: NgbModalOptions;
   tasks: TaskModel[];
@@ -57,6 +59,7 @@ export class TimecaptureAddComponent implements OnInit {
       backdrop: 'static',
       backdropClass: 'customBackdrop'
     };
+    this.getEmptyCapturedTime();
   }
 
   ngOnInit() {
@@ -91,9 +94,13 @@ export class TimecaptureAddComponent implements OnInit {
         this.spinner.hide();
       }
     );
-
-    this.timecaptureStateManagementService.timeCaptureShowModalEmitter.subscribe(result => {
+    /* for calendar segments */
+    this.timecaptureStateManagementService.timeCaptureHourSegmentShowModalEmitter.subscribe(result => {
+      this.logging.logDebug('id from event Emitter', result.Id);
       this.logging.logDebug('timecapture show modal event received', result);
+      this.selectedCapturedTime.Id = result.Id === undefined ? 0 : result.Id; //this value musn't be undefined
+      this.logging.logDebug('result.date', result.date);
+      this.selectedCapturedTime.TaskId = result.TaskId;
       this.startTime = result.date;
       this.endTime = result.date;
       this.selectedCapturedTime.Rate = this.selectedEmployeeRole.Rate;
@@ -105,6 +112,43 @@ export class TimecaptureAddComponent implements OnInit {
     }, err => {
       this.logging.logError('error showing timecapture add form', err);
     });
+    /* for events */
+    this.timecaptureStateManagementService.timeCaptureHandleEventShowModalEmitter.subscribe(result => {
+      this.logging.logDebug('id from event Emitter', result.meta.id);
+      this.logging.logDebug('timecapture show modal event received', result);
+      this.selectedCapturedTime.Id = result.meta.id;
+      this.selectedCapturedTime.TaskId = result.meta.taskId;
+      this.selectedTask = this.tasks.find(t => t.Id === result.meta.taskId);
+      this.startTime = result.start;
+      this.endTime = result.end;
+      this.selectedCapturedTime.Rate = result.meta.rate;
+      this.modalService.open(this.modalRef, this.modalOptions).result.then((resultmodel) => {
+        this.closeResult = `Closed with: ${resultmodel}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }, err => {
+      this.logging.logError('error showing timecapture add form', err);
+    });
+  }
+
+  getSuggestedEndTime(startTime: Date, duration: number)
+  {
+    let hasHalfhour = false;
+    let suggestedEndTime: Date = startTime
+    if((duration / 0.5) % 2 != 0)
+    {
+      //odd
+      duration = duration - 0.5
+      suggestedEndTime.setHours(suggestedEndTime.getHours() + duration);
+      suggestedEndTime.setMinutes(suggestedEndTime.getMinutes() + 30);
+    }
+    else
+    {
+      //even
+      suggestedEndTime.setHours(suggestedEndTime.getHours() + duration);
+    }
+    return suggestedEndTime;
   }
 
   open(content) {
@@ -128,18 +172,25 @@ export class TimecaptureAddComponent implements OnInit {
   onTaskSelectionChanged($event)
   {
     this.selectedCapturedTime.Duration = $event.value.Duration;
+    this.endTime = this.getSuggestedEndTime(this.startTime, $event.value.Duration);
     this.logging.logDebug("onthetaskselectchange=> ",$event);
   }
 
   onSubmit(form: NgForm)
   {
+    if (this.isDelete)
+    {
+      this.Delete();
+    }
+    else
+    {
     this.logging.logDebug('Submitted CapturedTime Form =>', form);
     this.selectedCapturedTime.UserId = this.selectedEmployee.Id;
     this.selectedCapturedTime.StartTime = this.startTime.getFullYear() + "-" + (this.startTime.getMonth() + 1) + "-" + this.startTime.getDate() + " " + this.startTime.getHours() + ":" + this.startTime.getMinutes() + ":" + this.startTime.getSeconds();
     this.selectedCapturedTime.EndTime = this.endTime.getFullYear() + "-" + (this.endTime.getMonth() + 1) + "-" + this.endTime.getDate() + " " + this.endTime.getHours() + ":" + this.endTime.getMinutes() + ":" + this.endTime.getSeconds();
     this.selectedCapturedTime.Rate = form.value.Rate;
     this.selectedCapturedTime.TaskId = this.selectedTask.Id;
-
+    this.logging.logDebug('Selected CapturedTime EndDate =>', this.selectedCapturedTime.EndTime);
     this.logging.logDebug('Selected CapturedTime =>', this.selectedCapturedTime);
     this.timecaptureStateManagementService.createUpdateCapturedTime(this.selectedCapturedTime).subscribe(result => {
       this.timecaptureStateManagementService.createCapturedTimeCalendarEvent({...this.selectedCapturedTime, eventName: this.selectedTask.TaskName});
@@ -151,6 +202,7 @@ export class TimecaptureAddComponent implements OnInit {
       this.modalService.dismissAll();
     });
   }
+  }
   OnStartTimeChange($event)
   {
     this.logging.logDebug('startTimeChange=>', $event);
@@ -159,6 +211,18 @@ export class TimecaptureAddComponent implements OnInit {
   OnEndTimeChange($event)
   {
     this.logging.logDebug('endTimeChange=>', $event);
+  }
+  OnViewDateChanged($event)
+  {
+    this.logging.logDebug('viewTimeChange=>', $event);
+  }
+  nav($event)
+  {
+    this.logging.logDebug('navChange=>', $event);
+  }
+  click(event)
+  {
+    this.logging.logDebug('clickChange=>', event);
   }
 
   getEmptyCapturedTime()
@@ -173,4 +237,25 @@ export class TimecaptureAddComponent implements OnInit {
     );
   }
 
+  Delete()
+  {
+    this.logging.logDebug('Selected CapturedTime =>', this.selectedCapturedTime);
+    this.logging.logDebug('Selected CapturedTime Id', this.selectedCapturedTime.Id);
+    this.timecaptureStateManagementService.deleteCapturedTime(this.selectedCapturedTime.Id).subscribe(result => {
+      this.timecaptureStateManagementService.deleteCapturedTimeCalendarEvent({...this.selectedCapturedTime, meta: {id:this.selectedCapturedTime.Id}, eventName: this.selectedTask.TaskName});
+      this.logging.logDebug('result from deleted time capture', result);
+      this.toastr.success('Captured Time Deleted Successfully', 'Success');
+      this.modalService.dismissAll();
+      this.isDelete = false;
+    }, err => {
+      this.logging.logError('Error deleting the CapturedTime', err);
+      this.modalService.dismissAll();
+      this.isDelete = false;
+    });
+  }
+  OnDelete(action)
+  {
+    this.isDelete = true;
+    this.logging.logDebug('delete clicked', action);
+  }
 }

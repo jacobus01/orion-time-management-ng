@@ -36,7 +36,7 @@ export class EmployeeTableComponent implements OnInit {
     },
     attr:
     {
-      class : 'table table-bordered table-hover'
+      class : 'blueTable'
     },
     pager:
     {

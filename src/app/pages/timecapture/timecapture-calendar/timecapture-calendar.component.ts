@@ -47,6 +47,10 @@ const colors: any = {
     primary: '#e3bc08',
     secondary: '#FDF1BA',
   },
+  green: {
+    color: '#0c9b0c',
+    background: '#a0f1a0',
+  },
 };
 
 @Component({
@@ -65,7 +69,7 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
 
   modalData: {
     action: string;
-    event: CalendarEvent;
+    event: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number }>;
   };
 
   private destroy$ = new Subject();
@@ -90,7 +94,7 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [];
+  events: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number }>[] = [];
 
   activeDayIsOpen: boolean = true;
 
@@ -108,6 +112,13 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
       err => {
         this.logging.logError('CreateNewCalendarEvent Error', err);
       });
+    this.timecaptureStateManagementService.capturedTimeDeletedEmitter.subscribe(result => {
+      this.logging.logDebug('deleteCalendarEvent', result);
+      this.deleteEvent(result);
+    },
+      err => {
+        this.logging.logError('CreateNewCalendarEvent Error', err);
+      });
     const loadStartDate = new Date();
     const loadEndDate = new Date();
     loadStartDate.setDate(1);
@@ -118,8 +129,10 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
         EndDate: loadEndDate.toDateString(),
         UserId: this.selectedEmployee.Id
       }).subscribe(result => {
+        this.logging.logDebug('Captured times per user from database', result);
         const loadedEvents = [];
         for (const event of result) {
+          this.logging.logDebug('Captured time per user from database', event);
           loadedEvents.push(
             {
               start: new Date(event.StartTime),
@@ -130,6 +143,12 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
               resizable: {
                 beforeStart: true,
                 afterEnd: true,
+              },
+              meta: {
+                id: event.Id,
+                userId: event.UserId,
+                taskId: event.TaskId,
+                rate: event.Rate
               },
               draggable: true,
             }
@@ -143,7 +162,7 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
         });
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number }>[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -172,18 +191,21 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
       }
       return iEvent;
     });
+    this.logging.logDebug('event changed =>', event);
     this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number }>): void {
+    this.logging.logDebug('Timecapture event click =>', event);
+    this.timecaptureStateManagementService.timeCaptureHandleEventShowModalEmitter.next(event);
   }
 
   addEvent(newEvent): void {
     this.events = [
       ...this.events,
       {
-        start: new Date(newEvent.StartTime),
-        end: new Date(newEvent.EndTime),
+        start: new Date(newEvent.start),
+        end: new Date(newEvent.end),
         title: newEvent.eventName,
         color: colors.blue,
         actions: this.actions,
@@ -192,12 +214,18 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
           afterEnd: true,
         },
         draggable: true,
+        meta: {
+          id: newEvent.Id,
+          userId: newEvent.UserId,
+          taskId: newEvent.TaskId,
+          rate: newEvent.Rate
+        },
       }
     ];
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+  deleteEvent(eventToDelete: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number }>) {
+    this.events = this.events.filter((event) => event.meta.id !== eventToDelete.meta.id);
   }
 
   setView(view: CalendarView) {
@@ -206,7 +234,7 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
 
   hourSegmentClicked(date) {
     this.logging.logDebug('Timecapture hoursegment click =>', date);
-    this.timecaptureStateManagementService.timeCaptureShowModalEmitter.next(date);
+    this.timecaptureStateManagementService.timeCaptureHourSegmentShowModalEmitter.next(date);
   }
 
   closeOpenMonthViewDay() {

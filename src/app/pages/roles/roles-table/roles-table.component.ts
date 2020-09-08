@@ -30,7 +30,7 @@ export class RolesTableComponent implements OnInit {
     },
     attr:
     {
-      class : 'table table-bordered table-hover'
+      class : 'blueTable'
     },
     pager:
     {

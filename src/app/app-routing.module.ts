@@ -17,7 +17,8 @@ const routes: Routes = [
   {path: 'employees', component: EmployeesComponent, canActivate: [AuthGuard]},
   {path: 'roles', component: RolesComponent, canActivate: [AuthGuard]},
   {path: 'tasks', component: TasksComponent, canActivate: [AuthGuard]},
-  {path: 'timecapture', component: TimecaptureComponent, canActivate: [AuthGuard]}
+  {path: 'timecapture', component: TimecaptureComponent, canActivate: [AuthGuard]},
+  {path: 'report', component: TimecaptureComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

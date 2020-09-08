@@ -13,6 +13,10 @@ CreateUpdateCapturedTime(capturedTime): Observable<any>
  {
    return this.http.post('capturedtime/createupdatecapturedtime', capturedTime);
  }
+ deleteCapturedTime(Id): Observable<any>
+ {
+   return this.http.post('capturedtime/deletecapturedtime', Id);
+ }
 
  listCapturedTimesPerUser(params): Observable<any>
  {

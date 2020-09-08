@@ -12,6 +12,7 @@
     <div class="modal-content">
       <div class="modal-header text-white bg-dark">
         <h1 class="modal-title" id="exampleModalLabel">Add/Edit Time Worked</h1>
+
         <button
           type="button"
           class="close"
@@ -32,7 +33,11 @@
             [(ngModel)]="selectedTask"
             [config]="configTaskDropdown"
             [options]="tasks"
+            required
           ></ngx-select-dropdown>
+          <span *ngIf="selectedTask===undefined" class="text-danger"
+                    >Please select a task</span
+                  >
         </div>
         <div class="form-group">
           <label for="Rate">Rate</label>
@@ -59,7 +64,10 @@
         <div class="form-group">
           <label for="startTime">Start Time</label>
           <dl-date-time-picker
+          (mwlClick)="click($event)"
           (change)="OnStartTimeChange($event)"
+          (navChange)="nav($event)"
+          (viewDateChange)="OnViewDateChanged($event)"
             name="startTime"
             maxView="minute"
             minView="minute"
@@ -84,7 +92,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-primary">Copy</button>
+        <button type="submit" (click)="OnDelete('delete')" class="btn btn-primary">Delete</button>
+        <button type="submit" [disabled]="!f.valid" class="btn btn-primary">Add</button>
         <button
           type="button"
           class="btn btn-danger"

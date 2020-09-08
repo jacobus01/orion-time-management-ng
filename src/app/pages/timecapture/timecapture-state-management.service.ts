@@ -12,35 +12,39 @@ import { TimecaptureService } from 'src/app/core/services/timecapture.service';
   providedIn: 'root'
 })
 export class TimecaptureStateManagementService {
-selectedEmployee: EmployeeModel;
-timeCaptureShowModalEmitter = new Subject<any>();
-selectedEmployeeEmitter = new Subject<any>();
-capturedTimeCreatedEmitter = new Subject<any>();
-constructor(private auth: AuthService,
-  private timeCapture: TimecaptureService,
-  private logging: LoggingService,
-  private spinner: NgxSpinnerService
+  selectedEmployee: EmployeeModel;
+  timeCaptureHourSegmentShowModalEmitter = new Subject<any>();
+  timeCaptureHandleEventShowModalEmitter = new Subject<any>();
+  selectedEmployeeEmitter = new Subject<any>();
+  capturedTimeCreatedEmitter = new Subject<any>();
+  capturedTimeDeletedEmitter = new Subject<any>();
+  constructor(private auth: AuthService,
+    private timeCapture: TimecaptureService,
+    private logging: LoggingService,
+    private spinner: NgxSpinnerService
   ) { }
 
-getEmployees(): Observable<any>
-{
-  return this.auth.listUsers();
-}
+  getEmployees(): Observable<any> {
+    return this.auth.listUsers();
+  }
 
-createUpdateCapturedTime(capturedTime): Observable<any>
-{
-  return this.timeCapture.CreateUpdateCapturedTime(capturedTime);
-}
+  createUpdateCapturedTime(capturedTime): Observable<any> {
+    return this.timeCapture.CreateUpdateCapturedTime(capturedTime);
+  }
+  deleteCapturedTime(Id): Observable<any> {
+    return this.timeCapture.deleteCapturedTime(Id);
+  }
 
-createCapturedTimeCalendarEvent(capturedTimeCalendarEvent)
-{
-  this.capturedTimeCreatedEmitter.next(capturedTimeCalendarEvent);
-}
+  createCapturedTimeCalendarEvent(capturedTimeCalendarEvent) {
+    this.capturedTimeCreatedEmitter.next(capturedTimeCalendarEvent);
+  }
+  deleteCapturedTimeCalendarEvent(capturedTimeCalendarEvent) {
+    this.capturedTimeDeletedEmitter.next(capturedTimeCalendarEvent);
+  }
 
-listCapturedTimesPerUser(params): Observable<any>
-{
-  return this.timeCapture.listCapturedTimesPerUser(params);
-}
+  listCapturedTimesPerUser(params): Observable<any> {
+    return this.timeCapture.listCapturedTimesPerUser(params);
+  }
 
 }
 
