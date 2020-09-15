@@ -1,3 +1,53 @@
-<p>
-  report-overview works!
-</p>
+<div class="container table table-bordered">
+  <div class="row">
+    <div class="col-md-4">
+      Total Employees:
+    </div>
+    <div class="col-md-2">
+      {{totalEmployees}}
+    </div>
+    <div class="col-md-4">
+      Total Hours this Month:
+    </div>
+    <div class="col-md-2">
+      {{totalHours}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      Total Employees Per Role:
+    </div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-4">
+      Total Pay this Month:
+    </div>
+    <div class="col-md-2">
+      R {{totalPay}}
+    </div>
+  </div>
+  <div class="row" *ngFor="let item of employeesPerRole">
+    <div class="col-md-4">
+      {{item.RoleName}}
+    </div>
+    <div class="col-md-2">
+      {{item.EmnployeesPerRole}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      Total Employees Per Access Group:
+    </div>
+    <div class="col-md-2">
+    </div>
+  </div>
+  <div class="row" *ngFor="let item of employeesPerAccessGroup">
+    <div class="col-md-4">
+      {{item.AccessGroupName}}
+    </div>
+    <div class="col-md-2">
+      {{item.EmnployeesPerAccessGroup}}
+    </div>
+  </div>
+</div>
+

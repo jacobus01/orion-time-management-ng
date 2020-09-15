@@ -19,33 +19,32 @@ export class TimecaptureComponent implements OnInit {
   selectedEmployee: EmployeeModel;
   selectedEmployeeRole: RoleModel;
   configEmployeeDropdown = {
-    displayKey:"FullName", //if objects array passed which key to be displayed defaults to description
-    search: true,  //true/false for the search functionlity defaults to false,
-    height: 'auto', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
+    displayKey: 'FullName', // if objects array passed which key to be displayed defaults to description
+    search: true,  // true/false for the search functionlity defaults to false,
+    // tslint:disable-next-line: max-line-length
+    height: 'auto', // height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
     placeholder: 'Select...', // text to be displayed when no item is selected defaults to Select,
 
     limitTo: 7, // number thats limits the no of options displayed in the UI (if zero, options will not be limited
     noResultsFound: 'No results found!', // text to be displayed when no items are found while searching
     searchPlaceholder: 'Search', // label thats displayed in search input,
+    // tslint:disable-next-line: max-line-length
     searchOnKey: 'FullName' // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
-    }
+  };
   constructor(private logging: LoggingService,
-    private spinner: NgxSpinnerService,
-    private roleService: RoleService,
-    private timecaptureStateManagementService: TimecaptureStateManagementService
-    ) { }
+              private spinner: NgxSpinnerService,
+              private roleService: RoleService,
+              private timecaptureStateManagementService: TimecaptureStateManagementService
+  ) { }
 
   ngOnInit() {
-    this.logging.logDebug("init selected user=>" , this.selectedEmployee);
+    this.logging.logDebug('init selected user=>', this.selectedEmployee);
     this.spinner.show();
     this.timecaptureStateManagementService.getEmployees()
-    .pipe(map(userData =>
-      {
+      .pipe(map(userData => {
         const userArray = [];
-        for (const key in userData)
-        {
-          if (userData.hasOwnProperty(key))
-          {
+        for (const key in userData) {
+          if (userData.hasOwnProperty(key)) {
             userArray.push(
               {
                 ...userData[key], rowNumber: key, FullName: userData[key].FirstName + ' ' + userData[key].LastName
@@ -53,44 +52,39 @@ export class TimecaptureComponent implements OnInit {
             );
           }
         }
-        return userArray;
+        return userArray.filter(u => u.RoleId !== 3);
       }))
-    .subscribe(
-      result =>
-      {
-        this.employees = result;
-        this.logging.logDebug('UsersResult => ', result);
-        this.spinner.hide();
-      },
-      err =>
-      {
-        this.logging.logError('ListUsers Error' , err);
-        this.spinner.hide();
-      }
-    );
+      .subscribe(
+        result => {
+          this.employees = result;
+          this.logging.logDebug('UsersResult => ', result);
+          this.spinner.hide();
+        },
+        err => {
+          this.logging.logError('ListUsers Error', err);
+          this.spinner.hide();
+        }
+      );
   }
 
-  employeeSelectionChanged($event)
-  {
+  employeeSelectionChanged($event) {
     this.spinner.show();
     this.selectedEmployee = $event.value;
-    this.logging.logDebug("ontheemployeeselectchange=> ",$event);
+    this.logging.logDebug('ontheemployeeselectchange=> ', $event);
     this.loadCalendar = true;
 
     this.roleService.getRoleById(1)
-    .subscribe(
-      result =>
-      {
-        this.selectedEmployeeRole = result;
-        this.logging.logDebug('GetRoleResult => ', result);
-        this.spinner.hide();
-      },
-      err =>
-      {
-        this.logging.logError('GetRoleResult Error' , err);
-        this.spinner.hide();
-      }
-    );
+      .subscribe(
+        result => {
+          this.timecaptureStateManagementService.reset();
+          this.selectedEmployeeRole = result;
+          this.logging.logDebug('GetRoleResult => ', result);
+          this.spinner.hide();
+        },
+        err => {
+          this.logging.logError('GetRoleResult Error', err);
+          this.spinner.hide();
+        }
+      );
   }
-
 }

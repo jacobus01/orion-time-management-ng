@@ -15,24 +15,21 @@ export class LoginComponent implements OnInit {
   constructor(private logging: LoggingService, private authService: AuthService,
     private router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) {
 
-   }
+  }
 
   ngOnInit() {
-    if (localStorage.getItem('token') != null)
-    {
+    if (localStorage.getItem('token') != null) {
       this.router.navigateByUrl('/');
       this.authService.menuVisibleEmitter.next(true);
     }
   }
 
-  onSubmit(form: NgForm)
-  {
+  onSubmit(form: NgForm) {
     this.spinner.show();
     this.logging.logDebug('LoginForm => ', form.value);
     console.log('Submitted');
     this.authService.login(form.value).subscribe(
-      result =>
-      {
+      result => {
         this.logging.logDebug('LoginResult => ', result);
         localStorage.setItem('token', result.token);
         localStorage.setItem('userName', result.user.UserName);
@@ -42,9 +39,15 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
         this.toastr.success("You have successfully logged in.", "Login Succeeded");
       },
-      err =>
-      {
-        this.logging.logError('Login Error' , err);
+      err => {
+        if (err.status === 400) {
+
+          this.logging.logError('Login Error', err.error.message);
+        }
+        else if (err.status === 401){
+          this.logging.logError('Login Error', 'Your session has expired and you have been logged out');
+        }
+
         this.spinner.hide();
       }
     );

@@ -11,7 +11,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header text-white bg-dark">
-        <h1 class="modal-title" id="exampleModalLabel">Add/Edit Time Worked</h1>
+        <h1 class="modal-title" id="exampleModalLabel">{{modalHeader}}</h1>
 
         <button
           type="button"
@@ -59,42 +59,22 @@
             name="Duration"
             [(ngModel)]="selectedCapturedTime.Duration"
             required
+            disabled
           />
         </div>
         <div class="form-group">
           <label for="startTime">Start Time</label>
-          <dl-date-time-picker
-          (mwlClick)="click($event)"
-          (change)="OnStartTimeChange($event)"
-          (navChange)="nav($event)"
-          (viewDateChange)="OnViewDateChanged($event)"
-            name="startTime"
-            maxView="minute"
-            minView="minute"
-            startView="minute"
-            minuteStep="30"
-            [(ngModel)]="startTime"
-          >
-          </dl-date-time-picker>
+          <ngb-timepicker  name="startTimeObj" [minuteStep]=30 [(ngModel)]="startTimeObj" meridian="ON"></ngb-timepicker>
         </div>
         <div class="form-group">
           <label for="endTime">End Time</label>
-          <dl-date-time-picker
-          (change)="OnEndTimeChange($event)"
-          name="endTime"
-            maxView="minute"
-            minView="minute"
-            startView="minute"
-            minuteStep="30"
-            [(ngModel)]="endTime"
-          >
-          </dl-date-time-picker>
+          <ngb-timepicker name="endTimeObj" [minuteStep]=30 [(ngModel)]="endTimeObj" meridian="ON"></ngb-timepicker>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">Copy</button>
-        <button type="submit" (click)="OnDelete('delete')" class="btn btn-primary">Delete</button>
-        <button type="submit" [disabled]="!f.valid" class="btn btn-primary">Add</button>
+        <button type="submit" [disabled]="!canDelete" (click)="OnDelete('delete')" class="btn btn-primary">Delete</button>
+        <button type="submit" [disabled]="!f.valid" class="btn btn-primary">{{btnText}}</button>
         <button
           type="button"
           class="btn btn-danger"

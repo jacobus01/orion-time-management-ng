@@ -19,6 +19,10 @@ export class RoleService {
     return this.http.post('role/role', Id);
   }
 
+  GetRolePerUserId(UserId: number): Observable<any> {
+    return this.http.post('role/roleperUser', UserId);
+  }
+
   CreateUpdateRole(role): Observable<any>
  {
    return this.http.post('role/createupdaterole', role);

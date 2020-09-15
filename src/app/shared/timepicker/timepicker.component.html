@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-11 align-self-center mr-0 pr-0">
+    <input type="text" [class]="tpClass" #timeInput value={{selectedTime}} (mousedown)="OnMouseDown($event)" (keypress)="OnkeyPress($event)" (mousemove)="OnMouseMove($event)" (mouseup)="OnMouseUp($event)">
+  </div>
+  <div class="col-1 align-self-center ml-0 pl-3">
+    <div class="row">
+      <div class="btn btn-primary" (click)="OnUpClick()" style="font-size: .50rem; margin: .05rem; padding: .15rem; width: 25px" >▲</div>
+    </div>
+    <div class="row">
+      <div class="btn btn-primary" (click)="OnDownClick()" style="font-size: .50rem; margin: .05rem; padding: .15rem; width: 25px">▼</div>
+    </div>
+  </div>
+</div>
+
+
+

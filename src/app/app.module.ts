@@ -14,6 +14,8 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
 import { TimeReportComponent } from './pages/profile/time-report/time-report.component';
+import { ReportOverviewComponent } from './pages/reports/report-overview/report-overview.component';
+import { TimepickerComponent } from './shared/timepicker/timepicker.component';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -34,6 +36,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { UploadImageComponent } from './pages/profile/upload-image/upload-image.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RoleDropdownComponent } from './shared/role-dropdown/role-dropdown.component';
+import { TimePipe } from './core/pipes/time.pipe';
 
 
 
@@ -58,7 +61,10 @@ import { RoleDropdownComponent } from './shared/role-dropdown/role-dropdown.comp
     ProfileComponent,
     TimecaptureAddComponent,
     RoleDropdownComponent,
-    TimeReportComponent
+    TimeReportComponent,
+    ReportOverviewComponent,
+    TimepickerComponent,
+    TimePipe
   ],
   imports: [
     BrowserModule,

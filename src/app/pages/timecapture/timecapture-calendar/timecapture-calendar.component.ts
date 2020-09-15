@@ -1,7 +1,5 @@
-import { logging } from 'protractor';
 import { TimecaptureStateManagementService } from './../timecapture-state-management.service';
 import { ToastrService } from 'ngx-toastr';
-import { TimecaptureService } from './../../../core/services/timecapture.service';
 import { LoggingService } from './../../../core/services/logging.service';
 import {
   Component,
@@ -13,18 +11,10 @@ import {
   TemplateRef,
   Input
 } from '@angular/core';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
   isSameDay,
   isSameMonth,
-  addHours,
 } from 'date-fns';
 import {
   CalendarEvent,
@@ -91,10 +81,9 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
       },
     },
   ];
-
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number }>[] = [];
+  events: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number, colorId: number }>[] = [];
 
   activeDayIsOpen: boolean = true;
 
@@ -105,9 +94,46 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
     private toastr: ToastrService
   ) { }
   ngOnInit(): void {
+    this.timecaptureStateManagementService.ResetCalendar.subscribe(
+      result => {
+        if (result) {
+          this.ResetValues();
+        }
+      }, err => {
+        this.logging.logError('Calander Reset Error', err);
+      }
+    );
+
     this.timecaptureStateManagementService.capturedTimeCreatedEmitter.subscribe(result => {
       this.logging.logDebug('CreateNewCalendarEvent', result);
-      this.addEvent(result);
+      if (this.events.filter(e => e.meta.id === result.Id).length > 0) {
+        // logic for update
+        this.deleteEvent(
+          {
+            start: new Date(result.StartTime),
+            end: new Date(result.EndTime),
+            title: result.eventName,
+            color: result.Color !== 0 ? result.Color !== 1 ? result.Color !== 2 ? colors.green : colors.yellow : colors.red : colors.blue,
+            actions: this.actions,
+            resizable: {
+              beforeStart: true,
+              afterEnd: true,
+            },
+            draggable: true,
+            meta: {
+              id: result.Id,
+              userId: result.UserId,
+              taskId: result.TaskId,
+              rate: result.Rate,
+            }
+          });
+        this.addEvent(result);
+      }
+      else {
+        // logiv for add
+        this.addEvent(result);
+      }
+
     },
       err => {
         this.logging.logError('CreateNewCalendarEvent Error', err);
@@ -138,7 +164,7 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
               start: new Date(event.StartTime),
               end: new Date(event.EndTime),
               title: event.TaskName,
-              color: colors.blue,
+              color: event.Color !== 0 ? event.Color !== 1 ? event.Color !== 2 ? colors.green : colors.yellow : colors.red : colors.blue,
               actions: this.actions,
               resizable: {
                 beforeStart: true,
@@ -148,7 +174,8 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
                 id: event.Id,
                 userId: event.UserId,
                 taskId: event.TaskId,
-                rate: event.Rate
+                rate: event.Rate,
+                colorId: event.Color
               },
               draggable: true,
             }
@@ -162,7 +189,15 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
         });
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number }>[] }): void {
+  ResetValues() {
+    this.logging.logDebug('Reset Calendar', 'clear');
+    this.events = [];
+  }
+
+  dayClicked({ date, events }: {
+    date: Date; events:
+    CalendarEvent<{ id: number, userId: number, taskId: number, colorId: number, rate: number }>[]
+  }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -195,7 +230,7 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
     this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event: CalendarEvent<{ id: number, userId: number, taskId: number, rate: number }>): void {
+  handleEvent(action: string, event: CalendarEvent<{ id: number, userId: number, taskId: number, colorId: number, rate: number }>): void {
     this.logging.logDebug('Timecapture event click =>', event);
     this.timecaptureStateManagementService.timeCaptureHandleEventShowModalEmitter.next(event);
   }
@@ -204,10 +239,10 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
     this.events = [
       ...this.events,
       {
-        start: new Date(newEvent.start),
-        end: new Date(newEvent.end),
+        start: new Date(newEvent.StartTime),
+        end: new Date(newEvent.EndTime),
         title: newEvent.eventName,
-        color: colors.blue,
+        color: newEvent.Color !== 0 ? newEvent.Color !== 1 ? newEvent.Color !== 2 ? colors.green : colors.yellow : colors.red : colors.blue,
         actions: this.actions,
         resizable: {
           beforeStart: true,
@@ -218,7 +253,8 @@ export class TimecaptureCalendarComponent implements OnInit, OnDestroy {
           id: newEvent.Id,
           userId: newEvent.UserId,
           taskId: newEvent.TaskId,
-          rate: newEvent.Rate
+          rate: newEvent.Rate,
+          colorId: newEvent.Color
         },
       }
     ];

@@ -57,7 +57,21 @@
                     #UserName="ngModel"
                     placeholder="Enter unique username"
                     [ngModel]="selectedEmployee.UserName"
+                    (keypress)="onUserNameInput(UserName)"
                   />
+                  <span *ngIf="!isUniqueUserName && UserName.viewModel.length > 4 && !loadingUniqueUserName" class="text-danger"
+                    >UserName is already taken</span
+                  >
+                  <span *ngIf="isUniqueUserName && UserName.viewModel.length > 4 && !loadingUniqueUserName" class="text-success"
+                    >UserName is available</span
+                  >
+                  <div class="mt2" *ngIf="!isUniqueUserName && loadingUniqueUserName && UserName.viewModel.length > 4" >
+                    <div  class="spinner-border text-warning"></div>
+                  <span class="text-warning"
+                    > Checking UserName</span>
+                  </div>
+
+
                   <span *ngIf="!UserName.valid && UserName.touched" class="text-danger"
                     >Please provide a valid user name</span
                   >

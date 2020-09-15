@@ -2,35 +2,42 @@
   <div class="row">
     <div class="col-md-12">
       <label for="ReportPeriod">Report for month:</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="ReportPeriod"
-                    [ngModel]="
-                    ReportPeriod | date: 'yyyy-mm-dd'
-                    "
-                    (ngModelChange)="ReportPeriod = $event"
-                    name="ReportPeriod"
-                    required
-                  />
+      <div class="border border-dark p-2 rounded">
+        <dl-date-time-picker
+      maxView="month"
+      minView="month"
+      startView="month"
+      minuteStep="5"
+      (change)="DateChange($event)"
+      [(ngModel)]="ReportPeriod"
+    >
+    </dl-date-time-picker>
+      </div>
     </div>
   </div>
+  <br/>
   <div class="row">
     <div class="col-md-12">
       <label>Hours Worked:</label>
-      <label class="form-control">12</label>
+      <label class="form-control">{{totalHours}}</label>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
       <label>Employment Role:</label>
-      <label class="form-control">Casual Employee Level 1</label>
+      <label class="form-control">{{role.RoleName}}</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label>Standard Rate per Hour</label>
+      <label class="form-control">R {{role.Rate}}</label>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
       <label>Remunaration:</label>
-      <label class="form-control">R 600.00</label>
+      <label class="form-control">R {{totalPay}}</label>
     </div>
   </div>
 </div>

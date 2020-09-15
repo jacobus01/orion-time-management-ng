@@ -13,6 +13,8 @@ employeeShowModalEmitter = new Subject<boolean>();
 selectedEmployeeEmitter = new Subject<any>();
 profileImageUploadedEmitter = new Subject<boolean>();
 
+refreshEmployeeTableEmitter = new Subject<string>();
+
 constructor(private http: HttpService) {
  }
 
@@ -40,9 +42,14 @@ constructor(private http: HttpService) {
    return `${environment.baseURL}/applicationuser/profilepic?id=${userId}`;
  }
 
- DeleteUser(user): Observable<any>
+ DeleteUser(userId): Observable<number>
  {
-   return this.http.post('applicationuser/createuser', user);
+   return this.http.post('applicationuser/deleteuser', userId);
+ }
+
+ IsUserNameUnused(UserName): Observable<any>
+ {
+   return this.http.post('applicationuser/usernameunused', UserName);
  }
 
 }

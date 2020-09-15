@@ -25,7 +25,7 @@ export class UploadImageComponent implements OnInit {
     const fileToUpload = files[0] as File;
     const formData = new FormData();
     formData.append('file', fileToUpload, localStorage.getItem('userId'));
-    this.http.post(environment.baseURL + '/ApplicationUser/UploadImage', formData, { reportProgress: true, observe: 'events' })
+    this.http.post(environment.baseURL + '/image/UploadImage', formData, { reportProgress: true, observe: 'events' })
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress = Math.round(100 * event.loaded / event.total);

@@ -7,13 +7,15 @@ export class CapturedTimeModel {
   public StartTime: string;
   public EndTime: string;
   public Duration: number;
+  public Color: number;
 
   constructor(Id: number,
     UserId: number,
     TaskId: number,
     Rate: number,
     StartTime: string,
-    EndTime: string
+    EndTime: string,
+    Color: number
       ) {
     this.Id = Id;
     this.UserId = UserId;
@@ -21,6 +23,7 @@ export class CapturedTimeModel {
     this.Rate = Rate;
     this.StartTime = StartTime;
     this.EndTime = EndTime;
+    this.Color = Color;
     this.getDuration();
   }
 

@@ -1,3 +1,4 @@
+import { ReportOverviewComponent } from './pages/reports/report-overview/report-overview.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -18,7 +19,7 @@ const routes: Routes = [
   {path: 'roles', component: RolesComponent, canActivate: [AuthGuard]},
   {path: 'tasks', component: TasksComponent, canActivate: [AuthGuard]},
   {path: 'timecapture', component: TimecaptureComponent, canActivate: [AuthGuard]},
-  {path: 'report', component: TimecaptureComponent, canActivate: [AuthGuard]}
+  {path: 'reportOverview', component: ReportOverviewComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

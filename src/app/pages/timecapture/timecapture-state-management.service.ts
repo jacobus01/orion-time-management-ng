@@ -18,6 +18,9 @@ export class TimecaptureStateManagementService {
   selectedEmployeeEmitter = new Subject<any>();
   capturedTimeCreatedEmitter = new Subject<any>();
   capturedTimeDeletedEmitter = new Subject<any>();
+  StartTimeEmitter = new Subject<any>();
+  EndTimeEmitter = new Subject<any>();
+  ResetCalendar = new Subject<boolean>();
   constructor(private auth: AuthService,
     private timeCapture: TimecaptureService,
     private logging: LoggingService,
@@ -44,6 +47,10 @@ export class TimecaptureStateManagementService {
 
   listCapturedTimesPerUser(params): Observable<any> {
     return this.timeCapture.listCapturedTimesPerUser(params);
+  }
+  reset()
+  {
+    this.ResetCalendar.next(true);
   }
 
 }

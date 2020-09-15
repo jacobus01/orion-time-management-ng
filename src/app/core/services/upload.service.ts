@@ -7,11 +7,10 @@ import { HttpService } from './http.service';
 })
 export class UploadService {
 
-constructor(private http: HttpService) { }
+  constructor(private http: HttpService) { }
 
 
-upload(formData): Observable<any>
-{
-   return this.http.post('ApplicationUser/UploadImage', formData, {reportProgress: true, observe: 'events'});
-}
+  upload(formData): Observable<any> {
+    return this.http.post('image/UploadImage', formData, { reportProgress: true, observe: 'events' });
+  }
 }

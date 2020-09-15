@@ -19,8 +19,9 @@ export class MenuComponent implements OnInit {
   userAccessGroupName: string;
   // tslint:disable-next-line: max-line-length
   constructor(private authService: AuthService, private accessGroupService: AccessgroupService, private router: Router, private toastr: ToastrService, private logging: LoggingService) {
-    if (localStorage.getItem('token') !== undefined)
+    if (localStorage.getItem('token') !== null)
     {
+      this.logging.logDebug('User Access Token', localStorage.getItem('token'));
       this.showMenu = true;
       this.username = localStorage.getItem('userName');
       this.accessGroupService.getAccessgroupByUserId(Number.parseInt(localStorage.getItem('userId'))).subscribe(
@@ -39,6 +40,11 @@ export class MenuComponent implements OnInit {
           }
         }
       );
+    }
+    else
+    {
+      this.logging.logDebug('User menu check =>', 'token is null');
+      this.showMenu = false;
     }
     // tslint:disable-next-line: radix
 

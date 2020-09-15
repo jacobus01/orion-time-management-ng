@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AccessGroupModel } from 'src/app/core/models/accessgroup.model';
 import { NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import { timer } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -30,10 +31,13 @@ export class EmployeeAddComponent implements OnInit {
   submitButtonText = 'Add';
   changeAddPassword = false;
   roles: RoleModel[] = [];
+  isUniqueUserName = false;
+  loadingUniqueUserName = false;
   accessGroups: AccessGroupModel[] = [];
   selectedAccessGroup: AccessGroupModel;
   selectedRole: RoleModel;
   closeResult: string;
+  userNameCheckTimer;
   modalOptions: NgbModalOptions;
   configRoleDropdown ={
     displayKey:"RoleName", //if objects array passed which key to be displayed defaults to description
@@ -154,7 +158,7 @@ export class EmployeeAddComponent implements OnInit {
       });
     this.authService.selectedEmployeeEmitter.subscribe(result =>
         {
-          this.selectedAccessGroup = this.accessGroups.find(e => e.Id === result.accessGroupId);
+          this.selectedAccessGroup = this.accessGroups.find(e => e.Id === result.AccessGroupId);
           this.selectedRole = this.roles.find(e => e.Id === result.RoleId);
           this.logging.logDebug('loading employee model on add edit form', result);
           this.selectedEmployee = new EmployeeModel(
@@ -203,14 +207,53 @@ export class EmployeeAddComponent implements OnInit {
 
   roleSelectionChanged($event)
   {
-    this.employeeForm.value.RoleId = $event.value;
-    this.logging.logDebug("ontheroleselectchange=> ",$event);
-
+    if (this.employeeForm !== undefined)
+    {
+      this.employeeForm.value.RoleId = $event.value;
+    }
+    this.logging.logDebug('ontheroleselectchange=> ', $event);
   }
   accessGroupSelectionChanged($event)
   {
-    this.employeeForm.value.AccessGroupId = $event.value;
-    this.logging.logDebug("ontheaccessGroupselectchange=> ",$event);
+    if (this.employeeForm !== undefined)
+    {
+      this.employeeForm.value.AccessGroupId = $event.value;
+    }
+    this.logging.logDebug('ontheaccessGroupselectchange=> ',$event);
+  }
+  onUserNameInput(UserName)
+  {
+    this.logging.logDebug('username keypress=> ', UserName.viewModel);
+    if (UserName.viewModel.length > 3)
+    {
+      this.loadingUniqueUserName = true;
+      this.isUniqueUserName = false;
+      this.userNameCheckTimer = timer(3000);
+      this.userNameCheckTimer.subscribe(result =>
+        {
+          this.authService.IsUserNameUnused(UserName.viewModel).subscribe(
+            response =>
+            {
+              this.logging.logDebug('checking username => ', response);
+              if (response.IsUserNameUnused)
+              {
+                this.isUniqueUserName = false;
+                this.loadingUniqueUserName = false;
+              }
+              else
+              {
+                this.isUniqueUserName = true;
+                this.loadingUniqueUserName = false;
+              }
+            }
+          );
+        },
+        err =>
+        {
+          this.logging.logError('Error checking username', err);
+          this.loadingUniqueUserName = false;
+        });
+    }
   }
 
   onSubmit(form: NgForm)
@@ -229,12 +272,13 @@ export class EmployeeAddComponent implements OnInit {
     this.selectedEmployee.AccessGroupId = form.value.AccessGroupId.Id;
     this.selectedEmployee.LockoutEnabled = form.value.LockoutEnabled;
 
-
     this.logging.logDebug('Selected Employee =>', this.selectedEmployee);
     this.authService.CreateUpdateUser(this.selectedEmployee).subscribe(result => {
       this.logging.logDebug('result from submitted employee form', result);
       this.toastr.success('Employee Submitted Successfully', 'Success');
       this.modalService.dismissAll();
+      this.authService.refreshEmployeeTableEmitter.next('ref');
+
     }, err => {
       this.logging.logError('Error submitting the Employee', err);
       this.modalService.dismissAll();
