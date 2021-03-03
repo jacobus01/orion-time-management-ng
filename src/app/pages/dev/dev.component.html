@@ -1,0 +1,22 @@
+
+<div class="card border-secondary mb-3">
+  <div class="card-header">
+Developer Tools
+  </div>
+  <div class="card-body">
+    <h4 class="card-title">JWT:</h4>
+    <p>Token: {{currentToken}}</p>
+    <p>Username: {{currentUserName}}</p>
+    <p>UserId: {{currentUserId}}</p>
+    <p>RefreshToken: {{currentRefreshToken}}</p>
+    <p>Decoded User Id: {{decodedUserId}}</p>
+    <p>Decoded Valid Audience: {{decodedValidAudience}}</p>
+    <p>Decoded Valid Issuer: {{decodedValidIssuer}}</p>
+    <p>Decoded Expiry Time: {{(decodedExpirationTime | amFromUnix) | amDateFormat: 'YYYY-MM-DD HH:mm:ss' }}</p>
+    <p>TTL: {{ttl}}</p>
+    <p>Countdown: {{countdown}}</p>
+    <button type="button" (click)="testAllNotifications()" class="btn btn-primary" style="width: 100%;">Primary</button>
+  </div>
+</div>
+
+

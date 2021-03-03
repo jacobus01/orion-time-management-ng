@@ -1,3 +1,6 @@
+import { DevComponent } from './pages/dev/dev.component';
+import { SwaggerComponent } from './pages/swagger/swagger.component';
+import { AllAssetsComponent } from './pages/all-assets/all-assets.component';
 import { ReportOverviewComponent } from './pages/reports/report-overview/report-overview.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NgModule, Component } from '@angular/core';
@@ -14,6 +17,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 const routes: Routes = [
   {path: '' , component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
+  {path: 'swagger', component: SwaggerComponent},
+  {path: 'allassets', component: AllAssetsComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'employees', component: EmployeesComponent, canActivate: [AuthGuard]},
   {path: 'roles', component: RolesComponent, canActivate: [AuthGuard]},
@@ -23,7 +28,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

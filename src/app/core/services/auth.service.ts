@@ -1,3 +1,4 @@
+import { UtilsService } from './utils.service';
 import { Observable, observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
@@ -15,12 +16,19 @@ profileImageUploadedEmitter = new Subject<boolean>();
 
 refreshEmployeeTableEmitter = new Subject<string>();
 
-constructor(private http: HttpService) {
+constructor(private http: HttpService, private utils: UtilsService) {
  }
 
  login(credentials): Observable<any>
  {
     return this.http.post('applicationuser/login', credentials);
+ }
+
+ refresh(credentials): Observable<any>
+ {
+    this.utils.logInfo("Refreshing Token",'Refreshing Token','Info Refresh Token', 'AuthService');
+    return this.http.post('applicationuser/refresh', credentials);
+
  }
 
  listUsers(): Observable<any>

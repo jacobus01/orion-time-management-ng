@@ -1,24 +1,29 @@
-import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoggingService {
 
-  constructor(private toastr: ToastrService) { }
+  constructor() { }
 
   logDebug(description: string, message) {
-    if(environment.enableDebugLogging)
-    {
-      console.log(description, message);
-    }
+    console.log(description, message);
   }
 
   logError(description: string, message) {
     console.error(description, message);
-    this.toastr.error(message, description);
+  }
+  logSuccess(description: string, message) {
+    console.info(description, message);
+  }
+
+  logWarn(description: string, message) {
+    console.warn(description, message);
+  }
+
+  logInfo(description: string, message) {
+    console.info(description, message);
   }
 
 }

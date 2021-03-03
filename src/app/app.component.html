@@ -2,4 +2,15 @@
   <p style="color: white"> Loading... </p>
 </ngx-spinner>
 <app-menu></app-menu>
-<router-outlet></router-outlet>
+<div [ngClass]="{
+  'row':showDevTools}">
+  <div [ngClass]="{
+    'col-md-3':showDevTools}">
+<app-dev [hidden]="!showDevTools"></app-dev>
+  <div [ngClass]="{
+    'col-md-9':showDevTools}">
+    <router-outlet ></router-outlet>
+  </div>
+</div>
+
+<app-footer></app-footer>

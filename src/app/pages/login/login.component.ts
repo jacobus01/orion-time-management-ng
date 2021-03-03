@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', result.token);
         localStorage.setItem('userName', result.user.UserName);
         localStorage.setItem('userId', result.user.Id);
+        localStorage.setItem("refreshToken", result.refreshToken);
         this.authService.menuVisibleEmitter.next(true);
         this.router.navigateByUrl('/');
         this.spinner.hide();

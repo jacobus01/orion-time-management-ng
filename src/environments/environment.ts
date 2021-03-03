@@ -5,7 +5,17 @@
 export const environment = {
   production: false,
   baseURL: 'http://localhost:5000',
-  enableDebugLogging: true
+  enableDebugLogging: true,
+  enableDebugToast: true,
+  enableInfoLogging: true,
+  enableInfoToast: true,
+  enableWarnLogging: true,
+  enableWarnToast: true,
+  enableSuccessLogging: true,
+  enableSuccessToast: true,
+  enableErrorLogging: true,
+  enableErrorToast: true,
+  enableGlobalErrors: false
 };
 
 /*

@@ -9,6 +9,7 @@ export class RoleService {
 
   roleShowModalEventEmitter = new Subject<boolean>();
   selectedRoleEmitter = new Subject<any>();
+  refreshRoleTableEmitter = new Subject<string>();
   constructor(private http: HttpService) { }
 
   listRoles(): Observable<any> {

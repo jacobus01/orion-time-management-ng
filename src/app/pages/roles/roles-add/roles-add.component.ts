@@ -78,6 +78,8 @@ export class RolesAddComponent implements OnInit {
     }
   }
 
+
+
   onSubmit(form: NgForm)
   {
     this.logging.logDebug('Submitted Task Form =>', form);
@@ -90,6 +92,7 @@ export class RolesAddComponent implements OnInit {
       this.logging.logDebug('result from submitted role form', result);
       this.toastr.success('Role Submitted Successfully', 'Success');
       this.modalService.dismissAll();
+      this.roleService.refreshRoleTableEmitter.next('ref');
     }, err => {
       this.logging.logError('Error submitting the Role', err);
       this.modalService.dismissAll();

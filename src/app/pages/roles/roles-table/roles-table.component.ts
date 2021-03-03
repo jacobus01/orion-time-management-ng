@@ -30,7 +30,7 @@ export class RolesTableComponent implements OnInit {
     },
     attr:
     {
-      class : 'blueTable'
+      class : 'blueTable',
     },
     pager:
     {
@@ -45,7 +45,17 @@ export class RolesTableComponent implements OnInit {
 
   public data = [
   ];
-  constructor(private roleService: RoleService, private logging: LoggingService, private spinner : NgxSpinnerService) { }
+  constructor(private roleService: RoleService, private logging: LoggingService, private spinner : NgxSpinnerService) {
+    this.roleService.refreshRoleTableEmitter.subscribe(
+      result =>
+      {
+        if (result === 'ref')
+        {
+          this.refreshTable();
+        }
+      }
+    );
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -86,6 +96,51 @@ export class RolesTableComponent implements OnInit {
     this.roleService.roleShowModalEventEmitter.next(true);
     this.roleService.selectedRoleEmitter.next({...event.data});
     this.logging.logDebug('ListRoles RowSelect', event);
+  }
+
+  refreshTable()
+  {
+    if (this.roleService.refreshRoleTableEmitter.subscribe(result =>
+      {
+        this.logging.logDebug('Refresh roles' , result);
+        return result;
+      },
+      err =>
+      {
+        this.logging.logError('Refresh Role Table Error' , err);
+        this.spinner.hide();
+      }))
+      {
+        this.spinner.show();
+        this.roleService.listRoles()
+          .pipe(map(roleData =>
+            {
+              const roleArray = [];
+              for (const key in roleData)
+              {
+                if (roleData.hasOwnProperty(key))
+                {
+                  roleArray.push(
+                    {
+                      ...roleData[key], rowNumber: key
+                    }
+                  );
+                }
+              }
+              return roleArray;
+            })).subscribe(
+              result =>
+              {
+                this.logging.logDebug('Refresh Role Table Result => ', result);
+                this.spinner.hide();
+                this.data = result;
+              },
+            err =>
+            {
+              this.logging.logError('Refresh Employee Table Error => ', err);
+              this.spinner.hide();
+            });
+      }
   }
 
   onDeleteRole($event)

@@ -1,8 +1,12 @@
+import { DevComponent } from './pages/dev/dev.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { SwaggerComponent } from './pages/swagger/swagger.component';
+import { AllAssetsComponent } from './pages/all-assets/all-assets.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule , CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { NgModule , CUSTOM_ELEMENTS_SCHEMA, ErrorHandler} from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbModalModule, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -37,9 +41,13 @@ import { UploadImageComponent } from './pages/profile/upload-image/upload-image.
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RoleDropdownComponent } from './shared/role-dropdown/role-dropdown.component';
 import { TimePipe } from './core/pipes/time.pipe';
+import { GlobalErrorHandlerService } from './core/services/global-error-handler.service';
+import { JwtModule } from '@auth0/angular-jwt';
+import { DateFormatPipe, DifferencePipe, FromUnixPipe, MomentModule } from 'ngx-moment';
 
-
-
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -53,9 +61,13 @@ import { TimePipe } from './core/pipes/time.pipe';
     RolesTableComponent,
     RolesAddComponent,
     TasksComponent,
+    DevComponent,
     TasksTableComponent,
     TasksAddComponent,
     TimecaptureComponent,
+    AllAssetsComponent,
+    SwaggerComponent,
+    FooterComponent,
     TimecaptureCalendarComponent,
     UploadImageComponent,
     ProfileComponent,
@@ -71,6 +83,9 @@ import { TimePipe } from './core/pipes/time.pipe';
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
+    NgbPaginationModule,
+    NgbAlertModule,
+    NgbModalModule,
     FormsModule,
     DlDateTimeDateModule,
     DlDateTimePickerModule,
@@ -79,9 +94,17 @@ import { TimePipe } from './core/pipes/time.pipe';
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     BrowserAnimationsModule,
     NgxSpinnerModule,
+    MomentModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:5000"],
+        blacklistedRoutes: []
+      }
+    }),
     ToastrModule.forRoot({
       timeOut: 10000,
-      preventDuplicates: true,
+      preventDuplicates: false,
     }),
     SelectDropDownModule
   ],
@@ -90,7 +113,11 @@ import { TimePipe } from './core/pipes/time.pipe';
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
-  }],
+  },
+  [FromUnixPipe],
+  [DateFormatPipe],
+  [DifferencePipe],
+  { provide: ErrorHandler, useClass: GlobalErrorHandlerService },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

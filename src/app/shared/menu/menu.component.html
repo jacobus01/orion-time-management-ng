@@ -15,6 +15,20 @@
       </li>
       <li class="nav-item">
         <a class="nav-link"
+        routerLink="/swagger"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        >Swagger</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+        routerLink="/allassets"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        >Styling</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
         *ngIf="showEmployee"
         routerLink="/employees"
         routerLinkActive="active"
